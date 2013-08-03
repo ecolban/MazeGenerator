@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import org.wintrisstech.erikc.mazegen.Edge;
 
 @SuppressWarnings("serial")
 public class Grid extends JPanel implements Runnable, ActionListener {
