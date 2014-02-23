@@ -3,7 +3,6 @@ package org.wintrisstech.student.mazegen.test;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.wintrisstech.student.mazegen.Edge;
 import org.wintrisstech.student.mazegen.Node;
 
 public class NodeTest {
@@ -46,19 +45,6 @@ public class NodeTest {
 
 	}
 
-	@Test
-	public void testGetEdges() {
-		Edge e = new Edge(node_0_0, node_0_1);
-		node_0_0.addEdge(e);
-		node_0_1.addEdge(e);
-		assertEquals(1, node_0_0.getEdges().size());
-		assertEquals(1, node_0_1.getEdges().size());
-		assertTrue(node_0_0.getEdges().get(0) == node_0_1.getEdges().get(0));
-		assertFalse(node_0_0.getEdges().isEmpty());
-		assertFalse(node_0_1.getEdges().isEmpty());
-		assertTrue(node_1_0.getEdges().isEmpty());
-		assertTrue(node_1_1.getEdges().isEmpty());
-	}
 
 	@Test
 	public void testSetConnected() {
@@ -66,7 +52,7 @@ public class NodeTest {
 
 	@Test
 	public void testIsConnected() {
-		node_0_0.setConnected();
+		node_0_0.setConnected(true);
 		assertTrue(node_0_0.isConnected());
 		assertFalse(node_0_1.isConnected());
 	}
