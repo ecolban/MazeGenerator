@@ -1,4 +1,4 @@
-package org.wintrisstech.student.mazegen.test;
+package org.wintrisstech.student.mazegen;
 
 import static org.junit.Assert.*;
 
