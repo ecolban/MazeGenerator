@@ -1,12 +1,10 @@
 package org.wintrisstech.student.mazegen;
 
+import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.PriorityQueue;
 
-import org.junit.Test;
-import org.wintrisstech.student.mazegen.Edge;
-import org.wintrisstech.student.mazegen.Node;
 
 public class EdgeTest {
 

@@ -24,7 +24,7 @@ public class MazeGenerator {
 
     public static void main(String[] args) {
 
-	MazeGenerator generator = new MazeGenerator(25, 125);
+	MazeGenerator generator = new MazeGenerator(25, 25);
 	generator.initialize();
 	List<Edge> maze = generator.runPrim();
 	generator.display(maze);

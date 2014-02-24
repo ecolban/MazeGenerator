@@ -1,9 +1,8 @@
 package org.wintrisstech.student.mazegen;
 
+import org.junit.Test;
 import static org.junit.Assert.*;
 
-import org.junit.Test;
-import org.wintrisstech.student.mazegen.Node;
 
 public class NodeTest {
 
@@ -14,10 +13,6 @@ public class NodeTest {
 
 	@Test
 	public void testNode() {
-//		node_0_0 = new Node(0, 0);
-//		node_0_1 = new Node(0, 1);
-//		node_1_0 = new Node(1, 0);
-//		node_1_1 = new Node(1, 1);
 		assertNotNull(node_0_0);
 		assertNotNull(node_0_1);
 		assertNotNull(node_1_0);
