@@ -8,11 +8,14 @@ public class Edge implements Comparable<Edge> {
 	private final Node v;
 	private final int cost;
 	private static final Random RNG = new Random();
+	private boolean inMaze = false;
 	
 	public Edge(Node u, Node v) {
 		this.u = u;
 		this.v = v;
 		this.cost = RNG.nextInt(50);
+		u.addAdjacent(this);
+		v.addAdjacent(this);
 	}
 	
 	public Node getU() {
@@ -30,6 +33,14 @@ public class Edge implements Comparable<Edge> {
 	@Override
 	public int compareTo(Edge that) {
 		return this.cost - that.cost ;
+	}
+	
+	public boolean isInMaze() {
+		return inMaze;
+	}
+	
+	public void setInMaze(boolean b) {
+		inMaze = b;
 	}
 
 }

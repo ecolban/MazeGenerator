@@ -8,115 +8,103 @@ import javax.swing.SwingUtilities;
 
 public class MazeGenerator {
 
-    private final int numRows;
-    private final int numCols;
-    private final Node[][] allNodes;
-    private final Edge[][] allHzEdges;
-    private final Edge[][] allVtEdges;
+	private final int numRows;
+	private final int numCols;
+	private final Node[][] allNodes;
+	private final Edge[][] allHzEdges;
+	private final Edge[][] allVtEdges;
 
-    public MazeGenerator(int numRows, int numCols) {
-	this.numRows = numRows;
-	this.numCols = numCols;
-	allNodes = new Node[numRows][numCols];
-	allHzEdges = new Edge[numRows][numCols - 1];
-	allVtEdges = new Edge[numRows - 1][numCols];
-    }
-
-    public static void main(String[] args) {
-
-	MazeGenerator generator = new MazeGenerator(25, 25);
-	generator.initialize();
-	List<Edge> maze = generator.runPrim();
-	generator.display(maze);
-    }
-
-    private void display(List<Edge> maze) {
-	SwingUtilities.invokeLater(new MazePanel(maze, numRows, numCols));
-    }
-
-    public void initialize() {
-	for (int i = 0; i < numRows; i++) {
-	    for (int j = 0; j < numCols; j++) {
-		allNodes[i][j] = new Node(i, j);
-	    }
+	public MazeGenerator(int numRows, int numCols) {
+		this.numRows = numRows;
+		this.numCols = numCols;
+		allNodes = new Node[numRows][numCols];
+		allHzEdges = new Edge[numRows][numCols - 1];
+		allVtEdges = new Edge[numRows - 1][numCols];
 	}
-	for (int i = 0; i < numRows - 1; i++) {
-	    for (int j = 0; j < numCols; j++) {
-		allVtEdges[i][j] = new Edge(allNodes[i][j], allNodes[i + 1][j]);
-	    }
+
+	public static void main(String[] args) {
+		MazeGenerator generator = new MazeGenerator(25, 25);
+		generator.initialize();
+		List<Edge> maze = generator.runPrim();
+		List<Edge> path = generator.findPath();
+		MazePanel panel = new MazePanel(generator, maze, path);
+		generator.display(panel);
 	}
-	for (int i = 0; i < numRows; i++) {
-	    for (int j = 0; j < numCols - 1; j++) {
-		allHzEdges[i][j] = new Edge(allNodes[i][j], allNodes[i][j + 1]);
-	    }
+
+	private List<Edge> findPath() {
+		return new PathFinder(allNodes[0][0],
+				allNodes[numRows - 1][numCols - 1]).apply();
 	}
-    }
 
-    public List<Edge> runPrim() {
-	List<Edge> result = new ArrayList<Edge>();
-	PriorityQueue<Edge> queue = new PriorityQueue<Edge>();
-	Node root = allNodes[0][0];
-	root.setConnected(true);
-	queue.addAll(adjacentEdges(root));
-	int count = 1;
-	while (!queue.isEmpty()) {
-	    Edge next = queue.poll();
-	    Node u = next.getU();
-	    Node v = next.getV();
-	    assert u.isConnected() || v.isConnected();
-	    if (!v.isConnected()) {
-		result.add(next);
-		v.setConnected(true);
-		queue.addAll(adjacentEdges(v));
-		count++;
-	    } else if (!u.isConnected()) {
-		result.add(next);
-		u.setConnected(true);
-		queue.addAll(adjacentEdges(u));
-		count++;
-	    } else {
-		// do nothing
-	    }
+	private void display(MazePanel maze) {
+		SwingUtilities.invokeLater(maze);
 	}
-	assert count == numRows * numCols;
-	return result;
-    }
 
-    public List<Edge> adjacentEdges(Node node) {
-	List<Edge> result = new ArrayList<Edge>();
-	int row = node.getRow();
-	int col = node.getCol();
-	assert 0 <= row && row < numRows;
-	assert 0 <= col && col < numCols;
-	if (0 < row)
-	    result.add(allVtEdges[row - 1][col]);
-	if (row < numRows - 1)
-	    result.add(allVtEdges[row][col]);
-	if (0 < col)
-	    result.add(allHzEdges[row][col - 1]);
-	if (col < numCols - 1)
-	    result.add(allHzEdges[row][col]);
-	return result;
-    }
+	public void initialize() {
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				allNodes[i][j] = new Node(i, j);
+			}
+		}
+		for (int i = 0; i < numRows - 1; i++) {
+			for (int j = 0; j < numCols; j++) {
+				allVtEdges[i][j] = new Edge(allNodes[i][j], allNodes[i + 1][j]);
+			}
+		}
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols - 1; j++) {
+				allHzEdges[i][j] = new Edge(allNodes[i][j], allNodes[i][j + 1]);
+			}
+		}
+	}
 
-    public int getNumRows() {
-	return numRows;
-    }
+	public List<Edge> runPrim() {
+		List<Edge> result = new ArrayList<Edge>();
+		/*
+		 * 1) queue contains all edges between a connected node and a
+		 * non-connected node. 2) No edge in queue is between two non-connected
+		 * nodes.
+		 */
+		PriorityQueue<Edge> queue = new PriorityQueue<Edge>();
+		allNodes[0][0].setConnected(true);
+		queue.addAll(allNodes[0][0].getAdjacent());
+		int count = 1;
+		while (!queue.isEmpty()) {
+			Edge next = queue.remove();
+			Node u = next.getU();
+			Node v = next.getV();
+			assert u.isConnected() || v.isConnected();
+			if (!(u.isConnected() && v.isConnected())) {
+				result.add(next);
+				next.setInMaze(true);
+				Node w = u.isConnected() ? v : u;
+				w.setConnected(true);
+				queue.addAll(w.getAdjacent());
+				count++;
+			}
+		}
+		assert count == numRows * numCols;
+		return result;
+	}
 
-    public int getNumCols() {
-	return numCols;
-    }
+	public int getNumRows() {
+		return numRows;
+	}
 
-    public Node getNode(int row, int col) {
-	return allNodes[row][col];
-    }
+	public int getNumCols() {
+		return numCols;
+	}
 
-    public Edge getVtEge(int row, int col) {
-	return allVtEdges[row][col];
-    }
-    
-    public Edge getHzEge(int row, int col) {
-	return allHzEdges[row][col];
-    }
+	public Node getNode(int row, int col) {
+		return allNodes[row][col];
+	}
+
+	public Edge getVtEge(int row, int col) {
+		return allVtEdges[row][col];
+	}
+
+	public Edge getHzEge(int row, int col) {
+		return allHzEdges[row][col];
+	}
 
 }

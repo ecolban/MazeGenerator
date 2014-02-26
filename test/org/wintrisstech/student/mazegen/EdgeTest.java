@@ -10,8 +10,12 @@ public class EdgeTest {
 
 	@Test
 	public void testEdge() {
-		Edge edge = new Edge(new Node(0, 1), new Node(1, 1));
+		Node u = new Node(0, 1);
+		Node v = new Node(1, 1);
+		Edge edge = new Edge(u, v);
 		assertNotNull(edge);
+		assertTrue(u.getAdjacent().contains(edge));
+		assertTrue(v.getAdjacent().contains(edge));
 	}
 
 	@Test
