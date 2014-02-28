@@ -2,7 +2,6 @@ package org.wintrisstech.student.mazegen;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 
 public class PathFinder {
@@ -28,14 +27,13 @@ public class PathFinder {
 		if (start == finish) {
 			done = true;
 		} else {
-			Set<Edge> adj = start.getAdjacent();
-			for (Iterator<Edge> i = adj.iterator(); !done && i.hasNext();) {
+			for (Iterator<Edge> i = start.getAdjacent().iterator(); !done
+					&& i.hasNext();) {
 				Edge e = i.next();
 				if (e != comingFrom && e.isInMaze()) {
 					Node child = e.getU() == start ? e.getV() : e.getU();
-					result.push(e);
 					findPath(e, child, finish);
-					if (!done) result.pop();
+					if (done) result.push(e);
 				}
 			}
 		}
