@@ -99,11 +99,11 @@ public class MazeGenerator {
 		return allNodes[row][col];
 	}
 
-	public Edge getVtEge(int row, int col) {
+	public Edge getVtEdge(int row, int col) {
 		return allVtEdges[row][col];
 	}
 
-	public Edge getHzEge(int row, int col) {
+	public Edge getHzEdge(int row, int col) {
 		return allHzEdges[row][col];
 	}
 

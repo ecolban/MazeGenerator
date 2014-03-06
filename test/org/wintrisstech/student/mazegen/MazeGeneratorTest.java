@@ -29,22 +29,22 @@ public class MazeGeneratorTest {
 		} catch (IndexOutOfBoundsException ex) {
 		}
 		try {
-			gen.getVtEge(8, 0);
+			gen.getVtEdge(8, 0);
 		} catch (IndexOutOfBoundsException ex) {
 			fail();
 		}
 		try {
-			gen.getVtEge(9, 0);
+			gen.getVtEdge(9, 0);
 			fail();
 		} catch (IndexOutOfBoundsException ex) {
 		}
 		try {
-			gen.getHzEge(0, 18);
+			gen.getHzEdge(0, 18);
 		} catch (IndexOutOfBoundsException ex) {
 			fail();
 		}
 		try {
-			gen.getHzEge(0, 19);
+			gen.getHzEdge(0, 19);
 			fail();
 		} catch (IndexOutOfBoundsException ex) {
 		}
