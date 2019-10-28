@@ -1,4 +1,4 @@
-package org.wintrisstech.student.mazegen;
+package org.jointheleague.student.mazegen;
 
 import java.util.Set;
 
@@ -8,10 +8,10 @@ import static org.junit.Assert.*;
 
 public class NodeTest {
 
-	Node node_0_0 = new Node(0, 0);
-	Node node_0_1 = new Node(0, 1);
-	Node node_1_0 = new Node(1, 0);
-	Node node_1_1 = new Node(1, 1);
+	private Node node_0_0 = new Node(0, 0);
+	private Node node_0_1 = new Node(0, 1);
+	private Node node_1_0 = new Node(1, 0);
+	private Node node_1_1 = new Node(1, 1);
 
 	@Test
 	public void testNode() {
@@ -90,6 +90,14 @@ public class NodeTest {
 		assertEquals(3, adj2.size());
 		Set<Edge> adj3 = generator.getNode(1, 1).getAdjacent();
 		assertEquals(4, adj3.size());
+	}
+
+	@Test
+	public void testToString() {
+		Node u = new Node(1, 2);
+		assertEquals("Node(row=1, col=2, connected=false)", u.toString());
+		u.setConnected(true);
+		assertEquals("Node(row=1, col=2, connected=true)", u.toString());
 	}
 
 }

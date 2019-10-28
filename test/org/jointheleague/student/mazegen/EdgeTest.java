@@ -1,4 +1,4 @@
-package org.wintrisstech.student.mazegen;
+package org.jointheleague.student.mazegen;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -53,6 +53,14 @@ public class EdgeTest {
 		Edge e1 = q.remove();
 		Edge e2 = q.remove();
 		assertTrue(e1.getCost() <= e2.getCost());
+	}
+
+	@Test
+	public void testToString() {
+		Node u = new Node(0, 1);
+		Node v = new Node(1, 1);
+		Edge edge = new Edge(u, v);
+		assertEquals(String.format("Edge(u=%s, v=%s)", u, v), edge.toString());
 	}
 
 }

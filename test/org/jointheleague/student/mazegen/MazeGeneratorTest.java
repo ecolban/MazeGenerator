@@ -1,4 +1,4 @@
-package org.wintrisstech.student.mazegen;
+package org.jointheleague.student.mazegen;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -26,36 +26,16 @@ public class MazeGeneratorTest {
 		try {
 			gen.getNode(10, 19);
 			fail();
-		} catch (IndexOutOfBoundsException ex) {
-		}
-		try {
-			gen.getVtEdge(8, 0);
-		} catch (IndexOutOfBoundsException ex) {
-			fail();
-		}
-		try {
-			gen.getVtEdge(9, 0);
-			fail();
-		} catch (IndexOutOfBoundsException ex) {
-		}
-		try {
-			gen.getHzEdge(0, 18);
-		} catch (IndexOutOfBoundsException ex) {
-			fail();
-		}
-		try {
-			gen.getHzEdge(0, 19);
-			fail();
-		} catch (IndexOutOfBoundsException ex) {
+		} catch (IndexOutOfBoundsException ignore) {
 		}
 	}
 
 	@Test
 	public final void testRunPrim() {
-		MazeGenerator gen = new MazeGenerator(10, 10);
+		MazeGenerator gen = new MazeGenerator(1000, 100);
 		gen.initialize();
 		List<Edge> maze = gen.runPrim();
 		assertNotNull(maze);
-		assertEquals(99, maze.size());
+		assertEquals(99999, maze.size());
 	}
 }
